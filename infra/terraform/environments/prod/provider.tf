@@ -8,7 +8,7 @@ terraform {
   }
   
   backend "s3" {
-    bucket         = "petclinic-tfstate-binome-XX"  # À remplacer par votre bucket
+    bucket         = "petclinic-tfstate-binome-01"  # À remplacer par votre bucket
     key            = "prod/terraform.tfstate"
     region         = "us-east-1"
     dynamodb_table = "petclinic-tfstate-locks"
