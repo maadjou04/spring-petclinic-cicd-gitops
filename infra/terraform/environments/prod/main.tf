@@ -2,13 +2,13 @@
 variable "environment" {
   description = "Environment name"
   type        = string
-  default     = "dev"
+  default     = "prod"
 }
 
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
-  default     = "t2.micro"
+  default     = "t3.micro"
 }
 
 variable "app_name" {
@@ -66,7 +66,7 @@ resource "aws_security_group" "app_sg" {
 
 # EC2 Instance
 resource "aws_instance" "app" {
-  ami                    = "ami-0df80e66b6b8a0056"  # Amazon Linux 2 (us-east-1)
+  ami                    = "ami-0df80e66b6b8a0056"
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.app_sg.id]
   subnet_id              = data.aws_subnets.default.ids[0]
@@ -79,7 +79,7 @@ resource "aws_instance" "app" {
     cd /home/ec2-user
     git clone https://github.com/maadjou04/spring-petclinic-cicd-gitops.git
     cd spring-petclinic-cicd-gitops
-    ./mvnw clean package -DskipTests
+    mvn clean package -DskipTests
     nohup java -jar target/*.jar &
     EOF
 
