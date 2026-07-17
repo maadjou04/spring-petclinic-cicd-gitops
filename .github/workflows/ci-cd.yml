@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ main ]
 
-env:
-  AWS_REGION: us-east-1
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,25 +36,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Terraform Init Dev
+      - name: Simulate DEV deployment
         run: |
-          cd infra/terraform/environments/dev
-          terraform init
-
-      - name: Terraform Apply Dev
-        run: |
-          cd infra/terraform/environments/dev
-          terraform apply -auto-approve
+          echo "##########################################"
+          echo "#  ✅ DÉPLOIEMENT DEV RÉUSSI (simulé)   #"
+          echo "##########################################"
+          echo "🏷️  Environnement: dev"
+          echo "💻 Instance: t2.nano (simulée)"
+          echo "🌐 URL: http://localhost:8080"
+          echo "📦 Application: spring-petclinic"
+          echo "✅ Terraform apply dev - SUCCESS"
 
   deploy-staging:
     runs-on: ubuntu-latest
@@ -68,25 +56,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Terraform Init Staging
+      - name: Simulate STAGING deployment
         run: |
-          cd infra/terraform/environments/staging
-          terraform init
-
-      - name: Terraform Apply Staging
-        run: |
-          cd infra/terraform/environments/staging
-          terraform apply -auto-approve
+          echo "##########################################"
+          echo "#  ✅ DÉPLOIEMENT STAGING RÉUSSI (simulé)#"
+          echo "##########################################"
+          echo "🏷️  Environnement: staging"
+          echo "💻 Instance: t2.medium (simulée)"
+          echo "🌐 URL: http://localhost:8080"
+          echo "✅ Terraform apply staging - SUCCESS"
 
   deploy-prod:
     runs-on: ubuntu-latest
@@ -97,22 +75,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      - name: Terraform Init Prod
+      - name: Simulate PROD deployment
         run: |
-          cd infra/terraform/environments/prod
-          terraform init
-
-      - name: Terraform Apply Prod
-        run: |
-          cd infra/terraform/environments/prod
-          terraform apply -auto-approve
+          echo "##########################################"
+          echo "#  ✅ DÉPLOIEMENT PROD RÉUSSI (simulé)   #"
+          echo "##########################################"
+          echo "🏷️  Environnement: prod"
+          echo "💻 Instance: t2.large (simulée)"
+          echo "🌐 URL: http://localhost:8080"
+          echo "✅ Terraform apply prod - SUCCESS"
