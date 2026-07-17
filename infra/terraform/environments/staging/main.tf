@@ -18,12 +18,15 @@ variable "app_name" {
 }
 
 # Data sources
-data "aws_availability_zones" "available" {
-  state = "available"
-}
-
 data "aws_vpc" "default" {
   default = true
+}
+
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
 }
 
 # Security Group
@@ -66,7 +69,7 @@ resource "aws_instance" "app" {
   ami                    = "ami-0df80e66b6b8a0056"
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.app_sg.id]
-  availability_zone      = data.aws_availability_zones.available.names[0]
+  subnet_id              = "subnet-002058d8d2a475b27"
 
   user_data = <<-EOF
     #!/bin/bash
