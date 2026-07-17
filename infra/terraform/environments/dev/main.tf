@@ -8,7 +8,7 @@ variable "environment" {
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
-  default     = "t3.micro"
+  default     = "t2.micro"
 }
 
 variable "app_name" {
@@ -22,11 +22,9 @@ data "aws_vpc" "default" {
   default = true
 }
 
-data "aws_subnets" "default" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
-  }
+data "aws_subnet" "selected" {
+  vpc_id            = data.aws_vpc.default.id
+  availability_zone = "us-east-1a"
 }
 
 # Security Group
@@ -69,7 +67,7 @@ resource "aws_instance" "app" {
   ami                    = "ami-0df80e66b6b8a0056"
   instance_type          = var.instance_type
   vpc_security_group_ids = [aws_security_group.app_sg.id]
-  subnet_id              = "subnet-002058d8d2a475b27"
+  subnet_id              = data.aws_subnet.selected.id
 
   user_data = <<-EOF
     #!/bin/bash
